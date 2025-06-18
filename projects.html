@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Projects | Mobile & Backend Developer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-in forwards'
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        }
+                    },
+                    height: {
+                        'card': '420px'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        .dark body {
+            background-color: #0f172a;
+            color: #e2e8f0;
+        }
+        
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+        }
+        
+        .project-card {
+            height: 480px;
+            perspective: 1000px;
+        }
+        
+        .project-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .dark .project-inner {
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .project-card:hover .project-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .project-front, .project-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .project-front {
+            background: white;
+        }
+        
+        .dark .project-front {
+            background: #1e293b;
+        }
+        
+        .project-back {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            transform: rotateY(180deg);
+            color: white;
+            padding: 25px;
+        }
+        
+        .dark .project-back {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+        }
+        
+        .project-image {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+        }
+        
+        .project-content {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .project-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #6366f1;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .dark .project-badge {
+            background: #4f46e5;
+        }
+        
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .tech-tag {
+            background: #e0e7ff;
+            color: #4f46e5;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .dark .tech-tag {
+            background: #312e81;
+            color: #c7d2fe;
+        }
+        
+        .project-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #1e293b;
+        }
+        
+        .dark .project-title {
+            color: #e2e8f0;
+        }
+        
+        .project-description {
+            color: #64748b;
+            font-size: 15px;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            flex-grow: 1;
+        }
+        
+        .dark .project-description {
+            color: #94a3b8;
+        }
+        
+        .project-features {
+            list-style: none;
+            padding: 0;
+            margin: 15px 0;
+        }
+        
+        .project-features li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .project-features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #4ade80;
+            font-weight: bold;
+        }
+        
+        .filter-btn.active {
+            background-color: #6366f1;
+            color: white;
+        }
+        
+        .dark .filter-btn.active {
+            background-color: #818cf8;
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-in forwards;
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #6366f1;
+            transition: width 0.3s;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .dark .nav-link:hover::after {
+            background: #818cf8;
+        }
+        
+        .btn-view-details {
+            background: #e0e7ff;
+            color: #4f46e5;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .dark .btn-view-details {
+            background: #312e81;
+            color: #c7d2fe;
+        }
+        
+        .btn-view-details:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(99, 102, 241, 0.2);
+        }
+        
+        .dark .btn-view-details:hover {
+            box-shadow: 0 4px 10px rgba(79, 70, 229, 0.4);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm py-4 px-6 shadow-sm">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center">
+                <div class="w-10 h-10 rounded-full bg-indigo-500 flex items-center justify-center text-white font-bold mr-3">
+                    AV
+                </div>
+                <span class="text-xl font-bold text-slate-800 dark:text-white">Anshul vyas</span>
+            </div>
+            
+            <div class="hidden md:flex space-x-8">
+                <a href="index.html" class="nav-link text-slate-600 dark:text-slate-300 font-medium">Home</a>
+                <a href="index.html#about" class="nav-link text-slate-600 dark:text-slate-300 font-medium">About</a>
+                <a href="index.html#skills" class="nav-link text-slate-600 dark:text-slate-300 font-medium">Skills</a>
+                <a href="projects.html" class="nav-link text-indigo-600 dark:text-indigo-400 font-medium">Projects</a>
+                <a href="index.html#contact" class="nav-link text-slate-600 dark:text-slate-300 font-medium">Contact</a>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <button id="theme-toggle" class="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition">
+                    <i class="fa-solid fa-moon dark:hidden"></i>
+                    <i class="fa-solid fa-sun hidden dark:block"></i>
+                </button>
+                
+                <button class="md:hidden text-slate-700 dark:text-slate-300" id="mobile-menu-btn">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Projects Header -->
+    <section class="pt-32 pb-16 px-6 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-slate-800 dark:to-slate-900">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex items-center mb-8">
+                <a href="index.html" class="flex items-center text-indigo-600 dark:text-indigo-400 font-medium hover:underline">
+                    <i class="fa-solid fa-arrow-left mr-2"></i> Back to Portfolio
+                </a>
+            </div>
+            
+            <div class="text-center max-w-3xl mx-auto">
+                <h1 class="text-4xl md:text-5xl font-bold text-slate-800 dark:text-white mb-4">
+                    My <span class="text-indigo-600 dark:text-indigo-400">Projects</span>
+                </h1>
+                <p class="text-xl text-slate-600 dark:text-slate-300 mb-10">
+                    Explore my latest mobile and backend development projects.
+                </p>
+                
+                <div class="flex justify-center mb-8">
+                    <div class="relative w-full max-w-xl">
+                        <input type="text" id="project-search" placeholder="Search projects..." 
+                               class="w-full px-6 py-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition pl-14 shadow-sm">
+                        <i class="fa-solid fa-magnifying-glass absolute left-6 top-1/2 transform -translate-y-1/2 text-slate-400"></i>
+                    </div>
+                </div>
+                
+                <div class="flex flex-wrap justify-center gap-3 mb-6">
+                    <button class="filter-btn px-4 py-2 bg-indigo-600 text-white rounded-full text-sm font-medium active" data-filter="all">All Projects</button>
+                    <button class="filter-btn px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full text-sm font-medium" data-filter="mobile">Mobile Apps</button>
+                    <button class="filter-btn px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full text-sm font-medium" data-filter="web">Web Apps</button>
+                    <button class="filter-btn px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full text-sm font-medium" data-filter="backend">Backend</button>
+                </div>
+                
+                <div class="flex flex-wrap justify-center gap-3">
+                    <button class="filter-btn px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full text-sm font-medium" data-filter="react">React Native</button>
+                    <button class="filter-btn px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full text-sm font-medium" data-filter="flutter">Flutter</button>
+                    <button class="filter-btn px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full text-sm font-medium" data-filter="django">Django</button>
+                    <button class="filter-btn px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full text-sm font-medium" data-filter="node">Node.js</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="py-16 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="project-grid" id="projects-container">
+                <!-- Project 1 -->
+                <div class="project-card animate-fade-in" data-category="mobile react" data-title="Fitness Tracker App">
+                    <div class="project-inner">
+                        <div class="project-front">
+                            <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" 
+                                 alt="Fitness Tracker App" class="project-image">
+                            <div class="project-badge">React Native</div>
+                            <div class="project-content">
+                                <h3 class="project-title">Fitness Tracker App</h3>
+                                <p class="project-description">
+                                    Mobile app for tracking workouts and nutrition with social features. 
+                                    Built with React Native for both iOS and Android platforms.
+                                </p>
+                                <div class="tech-tags">
+                                    <span class="tech-tag">Firebase</span>
+                                    <span class="tech-tag">Redux</span>
+                                    <span class="tech-tag">Maps API</span>
+                                </div>
+                                <button class="btn-view-details mt-4">
+                                    View Details <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="project-back">
+                            <h3 class="text-2xl font-bold mb-4">Fitness Tracker App</h3>
+                            <p class="mb-4">
+                                Cross-platform fitness app with workout plans, nutrition tracking, and social challenges.
+                            </p>
+                            <ul class="project-features">
+                                <li>Real-time workout tracking with rest timers</li>
+                                <li>Nutrition database with 10,000+ foods</li>
+                                <li>Social challenges and leaderboards</li>
+                                <li>Progress photos and measurements</li>
+                            </ul>
+                            <div class="mt-auto flex gap-3">
+                                <button class="px-4 py-2 bg-white text-indigo-600 font-medium rounded-full flex-1">
+                                    <i class="fa-brands fa-github mr-2"></i> Code
+                                </button>
+                                <button class="px-4 py-2 bg-indigo-800 text-white font-medium rounded-full flex-1">
+                                    <i class="fa-solid fa-globe mr-2"></i> Demo
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 2 -->
+                <div class="project-card animate-fade-in" data-category="mobile flutter" data-title="E-Commerce App">
+                    <div class="project-inner">
+                        <div class="project-front">
+                            <img src="https://images.unsplash.com/photo-1607082350899-7e105aa886ae?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" 
+                                 alt="E-Commerce App" class="project-image">
+                            <div class="project-badge" style="background: #0d9488;">Flutter</div>
+                            <div class="project-content">
+                                <h3 class="project-title">E-Commerce App</h3>
+                                <p class="project-description">
+                                    Mobile shopping experience with AR product visualization and secure payments. 
+                                    Supports multiple vendors and complex product variations.
+                                </p>
+                                <div class="tech-tags">
+                                    <span class="tech-tag" style="background: #ccfbf1; color: #0d9488;">Node.js</span>
+                                    <span class="tech-tag" style="background: #ccfbf1; color: #0d9488;">MongoDB</span>
+                                    <span class="tech-tag" style="background: #ccfbf1; color: #0d9488;">ARCore</span>
+                                </div>
+                                <button class="btn-view-details mt-4" style="background: #ccfbf1; color: #0d9488;">
+                                    View Details <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="project-back" style="background: linear-gradient(135deg, #0d9488, #14b8a6);">
+                            <h3 class="text-2xl font-bold mb-4">E-Commerce App</h3>
+                            <p class="mb-4">
+                                Feature-rich shopping app with augmented reality product previews and secure payments.
+                            </p>
+                            <ul class="project-features">
+                                <li>AR product visualization</li>
+                                <li>Secure payment gateway</li>
+                                <li>Real-time inventory tracking</li>
+                                <li>Multi-vendor marketplace</li>
+                            </ul>
+                            <div class="mt-auto flex gap-3">
+                                <button class="px-4 py-2 bg-white text-emerald-600 font-medium rounded-full flex-1">
+                                    <i class="fa-brands fa-github mr-2"></i> Code
+                                </button>
+                                <button class="px-4 py-2 bg-emerald-800 text-white font-medium rounded-full flex-1">
+                                    <i class="fa-solid fa-globe mr-2"></i> Demo
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 3 -->
+                <div class="project-card animate-fade-in" data-category="web django" data-title="Finance Dashboard">
+                    <div class="project-inner">
+                        <div class="project-front">
+                            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" 
+                                 alt="Finance Dashboard" class="project-image">
+                            <div class="project-badge" style="background: #f59e0b;">Django</div>
+                            <div class="project-content">
+                                <h3 class="project-title">Finance Dashboard</h3>
+                                <p class="project-description">
+                                    Web-based financial analytics platform with real-time market data and 
+                                    predictive insights for investors and traders.
+                                </p>
+                                <div class="tech-tags">
+                                    <span class="tech-tag" style="background: #fef3c7; color: #d97706;">React</span>
+                                    <span class="tech-tag" style="background: #fef3c7; color: #d97706;">PostgreSQL</span>
+                                    <span class="tech-tag" style="background: #fef3c7; color: #d97706;">D3.js</span>
+                                </div>
+                                <button class="btn-view-details mt-4" style="background: #fef3c7; color: #d97706;">
+                                    View Details <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="project-back" style="background: linear-gradient(135deg, #f59e0b, #fbbf24);">
+                            <h3 class="text-2xl font-bold mb-4">Finance Dashboard</h3>
+                            <p class="mb-4">
+                                Comprehensive financial analytics platform with real-time market data and predictive insights.
+                            </p>
+                            <ul class="project-features">
+                                <li>Real-time stock data visualization</li>
+                                <li>Portfolio performance tracking</li>
+                                <li>Predictive analytics with ML</li>
+                                <li>Customizable dashboards</li>
+                            </ul>
+                            <div class="mt-auto flex gap-3">
+                                <button class="px-4 py-2 bg-white text-amber-600 font-medium rounded-full flex-1">
+                                    <i class="fa-brands fa-github mr-2"></i> Code
+                                </button>
+                                <button class="px-4 py-2 bg-amber-800 text-white font-medium rounded-full flex-1">
+                                    <i class="fa-solid fa-globe mr-2"></i> Demo
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 4 -->
+                <div class="project-card animate-fade-in" data-category="backend node" data-title="Task Management API">
+                    <div class="project-inner">
+                        <div class="project-front">
+                            <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" 
+                                 alt="Task Management API" class="project-image">
+                            <div class="project-badge" style="background: #8b5cf6;">Node.js</div>
+                            <div class="project-content">
+                                <h3 class="project-title">Task Management API</h3>
+                                <p class="project-description">
+                                    RESTful API for task management applications with user authentication, 
+                                    role-based permissions, and real-time notifications.
+                                </p>
+                                <div class="tech-tags">
+                                    <span class="tech-tag" style="background: #ede9fe; color: #7c3aed;">Express</span>
+                                    <span class="tech-tag" style="background: #ede9fe; color: #7c3aed;">MongoDB</span>
+                                    <span class="tech-tag" style="background: #ede9fe; color: #7c3aed;">JWT</span>
+                                </div>
+                                <button class="btn-view-details mt-4" style="background: #ede9fe; color: #7c3aed;">
+                                    View Details <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="project-back" style="background: linear-gradient(135deg, #8b5cf6, #a78bfa);">
+                            <h3 class="text-2xl font-bold mb-4">Task Management API</h3>
+                            <p class="mb-4">
+                                Robust backend system for task management with real-time features.
+                            </p>
+                            <ul class="project-features">
+                                <li>JWT-based authentication</li>
+                                <li>Role-based access control</li>
+                                <li>Real-time notifications</li>
+                                <li>Automated reminders</li>
+                            </ul>
+                            <div class="mt-auto flex gap-3">
+                                <button class="px-4 py-2 bg-white text-violet-600 font-medium rounded-full flex-1">
+                                    <i class="fa-brands fa-github mr-2"></i> Code
+                                </button>
+                                <button class="px-4 py-2 bg-violet-800 text-white font-medium rounded-full flex-1">
+                                    <i class="fa-solid fa-file-lines mr-2"></i> Docs
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 bg-slate-900 text-slate-300">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-6">
+                        <div class="w-10 h-10 rounded-full bg-indigo-500 flex items-center justify-center text-white font-bold mr-3">
+                            AV
+                        </div>
+                        <span class="text-xl font-bold text-white">Anshul vyas</span>
+                    </div>
+                    <p class="mb-6">
+                        Creating beautiful mobile experiences and powerful backend solutions.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="https://github.com/ansh-vyas" class="text-slate-400 hover:text-white transition">
+                            <i class="fa-brands fa-github"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/-anshul-vyas/" class="text-slate-400 hover:text-white transition">
+                            <i class="fa-brands fa-linkedin-in"></i>
+                        </a>
+                        <a href="https://twitter.com/_ansh_vyas" class="text-slate-400 hover:text-white transition">
+                            <i class="fa-brands fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold text-white mb-6">Quick Links</h4>
+                    <ul class="space-y-3">
+                        <li><a href="index.html" class="hover:text-white transition">Home</a></li>
+                        <li><a href="index.html#about" class="hover:text-white transition">About</a></li>
+                        <li><a href="index.html#skills" class="hover:text-white transition">Skills</a></li>
+                        <li><a href="projects.html" class="hover:text-white transition">Projects</a></li>
+                        <li><a href="index.html#contact" class="hover:text-white transition">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold text-white mb-6">Technologies</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="hover:text-white transition">React Native</a></li>
+                        <li><a href="#" class="hover:text-white transition">Flutter</a></li>
+                        <li><a href="#" class="hover:text-white transition">Django</a></li>
+                        <li><a href="#" class="hover:text-white transition">Node.js</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold text-white mb-6">Contact</h4>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fa-solid fa-envelope mt-1 mr-3 text-indigo-400"></i>
+                            <span>anshvyas114@gmail.com</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa-solid fa-phone mt-1 mr-3 text-indigo-400"></i>
+                            <span>+91 7627013828</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-slate-800 mt-12 pt-8 text-center">
+                <p>&copy; 2025 Anshulvyas. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Dark mode toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+        
+        // Check for saved theme preference or respect OS setting
+        if (localStorage.getItem('theme') === 'dark' || 
+            (!localStorage.getItem('theme') && 
+            window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            html.classList.add('dark');
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+        });
+        
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        mobileMenuBtn.addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+        
+        // Filter functionality
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const projectSearch = document.getElementById('project-search');
+        
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                filterProjects();
+            });
+        });
+        
+        projectSearch.addEventListener('input', filterProjects);
+        
+        function filterProjects() {
+            const searchTerm = projectSearch.value.toLowerCase();
+            const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
+            const projectCards = document.querySelectorAll('.project-card');
+            
+            projectCards.forEach(card => {
+                const categories = card.dataset.category;
+                const title = card.dataset.title.toLowerCase();
+                
+                const matchesFilter = activeFilter === 'all' || categories.includes(activeFilter);
+                const matchesSearch = title.includes(searchTerm);
+                
+                if (matchesFilter && matchesSearch) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+        
+        // Initialize animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fade-in');
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        document.querySelectorAll('.project-card').forEach(card => {
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
