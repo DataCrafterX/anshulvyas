@@ -1,1408 +1,671 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <title>Anshul vyas | Mobile & Backend Developer</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Projects | Mobile & Backend Developer</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            animation: {
-              float: "float 6s ease-in-out infinite",
-              "fade-in": "fadeIn 0.5s ease-in forwards",
-            },
-            keyframes: {
-              float: {
-                "0%, 100%": { transform: "translateY(0)" },
-                "50%": { transform: "translateY(-20px)" },
-              },
-              fadeIn: {
-                "0%": { opacity: "0" },
-                "100%": { opacity: "1" },
-              },
-            },
-          },
-        },
-      };
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-in forwards'
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        }
+                    },
+                    height: {
+                        'card': '420px'
+                    }
+                }
+            }
+        }
     </script>
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
-
-      body {
-        font-family: "Poppins", sans-serif;
-        background-color: #f8fafc;
-        color: #1e293b;
-        transition: background-color 0.3s, color 0.3s;
-      }
-
-      .dark body {
-        background-color: #0f172a;
-        color: #e2e8f0;
-      }
-
-      .hero-gradient {
-        background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899);
-        background-size: 200% 200%;
-        animation: gradient 8s ease infinite;
-      }
-
-      @keyframes gradient {
-        0% {
-          background-position: 0% 50%;
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            transition: background-color 0.3s, color 0.3s;
         }
-        50% {
-          background-position: 100% 50%;
+        
+        .dark body {
+            background-color: #0f172a;
+            color: #e2e8f0;
         }
-        100% {
-          background-position: 0% 50%;
+        
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
         }
-      }
-
-      .card-hover {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-      }
-
-      .card-hover:hover {
-        transform: translateY(-5px);
-      }
-
-      .skill-bar {
-        height: 8px;
-        border-radius: 4px;
-        overflow: hidden;
-      }
-
-      .skill-fill {
-        height: 100%;
-        transition: width 1s ease-in-out;
-      }
-
-      .nav-link {
-        position: relative;
-      }
-
-      .nav-link::after {
-        content: "";
-        position: absolute;
-        bottom: -5px;
-        left: 0;
-        width: 0;
-        height: 2px;
-        background: #6366f1;
-        transition: width 0.3s;
-      }
-
-      .nav-link:hover::after {
-        width: 100%;
-      }
-
-      .dark .nav-link:hover::after {
-        background: #818cf8;
-      }
-
-      .project-card {
-        perspective: 1000px;
-      }
-
-      .project-inner {
-        transition: transform 0.6s;
-        transform-style: preserve-3d;
-      }
-
-      .project-card:hover .project-inner {
-        transform: rotateY(180deg);
-      }
-
-      .project-front,
-      .project-back {
-        backface-visibility: hidden;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-      }
-
-      .project-back {
-        transform: rotateY(180deg);
-      }
+        
+        .project-card {
+            height: 480px;
+            perspective: 1000px;
+        }
+        
+        .project-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .dark .project-inner {
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .project-card:hover .project-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .project-front, .project-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .project-front {
+            background: white;
+        }
+        
+        .dark .project-front {
+            background: #1e293b;
+        }
+        
+        .project-back {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            transform: rotateY(180deg);
+            color: white;
+            padding: 25px;
+        }
+        
+        .dark .project-back {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+        }
+        
+        .project-image {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+        }
+        
+        .project-content {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .project-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #6366f1;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .dark .project-badge {
+            background: #4f46e5;
+        }
+        
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .tech-tag {
+            background: #e0e7ff;
+            color: #4f46e5;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .dark .tech-tag {
+            background: #312e81;
+            color: #c7d2fe;
+        }
+        
+        .project-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #1e293b;
+        }
+        
+        .dark .project-title {
+            color: #e2e8f0;
+        }
+        
+        .project-description {
+            color: #64748b;
+            font-size: 15px;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            flex-grow: 1;
+        }
+        
+        .dark .project-description {
+            color: #94a3b8;
+        }
+        
+        .project-features {
+            list-style: none;
+            padding: 0;
+            margin: 15px 0;
+        }
+        
+        .project-features li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .project-features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #4ade80;
+            font-weight: bold;
+        }
+        
+        .filter-btn.active {
+            background-color: #6366f1;
+            color: white;
+        }
+        
+        .dark .filter-btn.active {
+            background-color: #818cf8;
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-in forwards;
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #6366f1;
+            transition: width 0.3s;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .dark .nav-link:hover::after {
+            background: #818cf8;
+        }
+        
+        .btn-view-details {
+            background: #e0e7ff;
+            color: #4f46e5;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .dark .btn-view-details {
+            background: #312e81;
+            color: #c7d2fe;
+        }
+        
+        .btn-view-details:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(99, 102, 241, 0.2);
+        }
+        
+        .dark .btn-view-details:hover {
+            box-shadow: 0 4px 10px rgba(79, 70, 229, 0.4);
+        }
     </style>
-  </head>
-  <body class="bg-slate-50 dark:bg-slate-900">
+</head>
+<body class="bg-slate-50 dark:bg-slate-900">
     <!-- Navigation -->
-    <nav
-      class="fixed w-full z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm py-4 px-6 shadow-sm"
-    >
-      <div class="max-w-7xl mx-auto flex justify-between items-center">
-        <div class="flex items-center">
-          <div
-            class="w-10 h-10 rounded-full bg-indigo-500 flex items-center justify-center text-white font-bold mr-3"
-          >
-            AV
-          </div>
-          <span class="text-xl font-bold text-slate-800 dark:text-white"
-            >Anshul vyas</span
-          >
+    <nav class="fixed w-full z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm py-4 px-6 shadow-sm">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center">
+                <div class="w-10 h-10 rounded-full bg-indigo-500 flex items-center justify-center text-white font-bold mr-3">
+                    AV
+                </div>
+                <span class="text-xl font-bold text-slate-800 dark:text-white">Anshul vyas</span>
+            </div>
+            
+            <div class="hidden md:flex space-x-8">
+                <a href="index.html" class="nav-link text-slate-600 dark:text-slate-300 font-medium">Home</a>
+                <a href="index.html#about" class="nav-link text-slate-600 dark:text-slate-300 font-medium">About</a>
+                <a href="index.html#skills" class="nav-link text-slate-600 dark:text-slate-300 font-medium">Skills</a>
+                <a href="projects.html" class="nav-link text-indigo-600 dark:text-indigo-400 font-medium">Projects</a>
+                <a href="index.html#contact" class="nav-link text-slate-600 dark:text-slate-300 font-medium">Contact</a>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <button id="theme-toggle" class="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition">
+                    <i class="fa-solid fa-moon dark:hidden"></i>
+                    <i class="fa-solid fa-sun hidden dark:block"></i>
+                </button>
+                
+                <button class="md:hidden text-slate-700 dark:text-slate-300" id="mobile-menu-btn">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+            </div>
         </div>
-
-        <div class="hidden md:flex space-x-8">
-          <a
-            href="#home"
-            class="nav-link text-slate-600 dark:text-slate-300 font-medium"
-            >Home</a
-          >
-          <a
-            href="#about"
-            class="nav-link text-slate-600 dark:text-slate-300 font-medium"
-            >About</a
-          >
-          <a
-            href="#skills"
-            class="nav-link text-slate-600 dark:text-slate-300 font-medium"
-            >Skills</a
-          >
-          <a
-            href="#projects"
-            class="nav-link text-slate-600 dark:text-slate-300 font-medium"
-            >Projects</a
-          >
-          <a
-            href="#contact"
-            class="nav-link text-slate-600 dark:text-slate-300 font-medium"
-            >Contact</a
-          >
-        </div>
-
-        <div class="flex items-center space-x-4">
-          <button
-            id="theme-toggle"
-            class="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition"
-          >
-            <i class="fa-solid fa-moon dark:hidden"></i>
-            <i class="fa-solid fa-sun hidden dark:block"></i>
-          </button>
-
-          <button class="md:hidden text-slate-700 dark:text-slate-300">
-            <i class="fa-solid fa-bars text-2xl"></i>
-          </button>
-        </div>
-      </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section id="home" class="pt-24 pb-16 px-6">
-      <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-        <div class="space-y-6">
-          <h1
-            class="text-4xl md:text-6xl font-bold text-slate-800 dark:text-white"
-          >
-            Hi, I'm
-            <span class="text-indigo-600 dark:text-indigo-400">Ansh</span>
-          </h1>
-          <h2
-            class="text-2xl md:text-4xl font-bold bg-clip-text text-transparent hero-gradient"
-          >
-            Mobile & Backend Developer
-          </h2>
-          <p class="text-lg text-slate-600 dark:text-slate-300 max-w-lg">
-            I create beautiful mobile apps with React Native & Flutter, and
-            powerful backends with Django & Node.js. Let's build something
-            amazing together!
-          </p>
-          <div class="flex flex-wrap gap-4">
-            <a
-              href="#projects"
-              class="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-full transition shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/40"
-            >
-              View My Work
-            </a>
-            <a
-              href="#contact"
-              class="px-6 py-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-800 dark:text-white font-medium rounded-full transition"
-            >
-              Contact Me
-            </a>
-          </div>
-
-          <div class="flex pt-4 space-x-6">
-            <a
-              href="https://github.com/ansh-vyas"
-              class="text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition"
-            >
-              <i class="fa-brands fa-github text-2xl"></i>
-            </a>
-            <a
-              href="https://www.linkedin.com/in/-anshul-vyas/"
-              class="text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition"
-            >
-              <i class="fa-brands fa-linkedin text-2xl"></i>
-            </a>
-            <a
-              href="https://twitter.com/_ansh_vyas"
-              class="text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition"
-            >
-              <i class="fa-brands fa-twitter text-2xl"></i>
-            </a>
-          </div>
-        </div>
-
-        <div class="relative flex justify-center">
-          <div class="relative w-64 h-64 md:w-80 md:h-80">
-            <div
-              class="absolute inset-0 bg-indigo-500 rounded-full opacity-20 blur-xl animate-pulse"
-            ></div>
-            <div
-              class="absolute top-0 right-0 w-32 h-32 bg-pink-500 rounded-full opacity-20 blur-xl animate-pulse animation-delay-1000"
-            ></div>
-            <div
-              class="absolute bottom-0 left-0 w-24 h-24 bg-purple-500 rounded-full opacity-20 blur-xl animate-pulse animation-delay-2000"
-            ></div>
-
-            <div
-              class="relative z-10 w-full h-full flex items-center justify-center"
-            >
-              <img
-                src="/images/ansh.jpg"
-                alt="Developer"
-                class="w-56 h-56 md:w-72 md:h-72 object-cover rounded-full border-4 border-white dark:border-slate-800 shadow-xl"
-              />
+    <!-- Projects Header -->
+    <section class="pt-32 pb-16 px-6 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-slate-800 dark:to-slate-900">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex items-center mb-8">
+                <a href="index.html" class="flex items-center text-indigo-600 dark:text-indigo-400 font-medium hover:underline">
+                    <i class="fa-solid fa-arrow-left mr-2"></i> Back to Portfolio
+                </a>
             </div>
-          </div>
-
-          <div
-            class="absolute -bottom-6 -left-6 w-32 h-32 bg-indigo-100 dark:bg-indigo-900/30 rounded-full flex items-center justify-center animate-float"
-          >
-            <div
-              class="w-24 h-24 bg-indigo-200 dark:bg-indigo-800/30 rounded-full flex items-center justify-center"
-            >
-              <div
-                class="w-16 h-16 bg-indigo-300 dark:bg-indigo-700/30 rounded-full flex items-center justify-center"
-              >
-                <i
-                  class="fa-brands fa-react text-4xl text-indigo-600 dark:text-indigo-400"
-                ></i>
-              </div>
-            </div>
-          </div>
-
-          <div
-            class="absolute -top-6 -right-6 w-28 h-28 bg-amber-100 dark:bg-amber-900/30 rounded-full flex items-center justify-center animate-float"
-            style="animation-delay: 1.5s"
-          >
-            <div
-              class="w-20 h-20 bg-amber-200 dark:bg-amber-800/30 rounded-full flex items-center justify-center"
-            >
-              <div
-                class="w-12 h-12 bg-amber-300 dark:bg-amber-700/30 rounded-full flex items-center justify-center"
-              >
-                <i
-                  class="fa-brands fa-python text-2xl text-amber-600 dark:text-amber-400"
-                ></i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="py-16 px-6 bg-slate-50 dark:bg-slate-800">
-      <div class="max-w-7xl mx-auto">
-        <div class="text-center mb-16">
-          <h2
-            class="text-3xl md:text-4xl font-bold text-slate-800 dark:text-white"
-          >
-            About <span class="text-indigo-600 dark:text-indigo-400">Me</span>
-          </h2>
-          <div class="w-24 h-1 bg-indigo-600 mx-auto mt-4 rounded"></div>
-        </div>
-
-        <div class="grid md:grid-cols-2 gap-12 items-center">
-          <div class="space-y-6">
-            <h3 class="text-2xl font-bold text-slate-800 dark:text-white">
-              Full Stack Mobile Developer
-            </h3>
-            <p class="text-slate-600 dark:text-slate-300">
-              I specialize in creating cross-platform mobile applications with
-              React Native and Flutter, along with robust backend solutions
-              using Django and Node.js. With 5 years of experience, I've
-              delivered high-performance apps for various industries.
-            </p>
-            <p class="text-slate-600 dark:text-slate-300">
-              My passion lies in solving complex problems with elegant solutions
-              and creating intuitive user experiences that delight users.
-            </p>
-
-            <div class="grid grid-cols-2 gap-4 pt-4">
-              <div class="flex items-center">
-                <div
-                  class="w-10 h-10 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400 mr-3"
-                >
-                  <i class="fa-solid fa-code"></i>
-                </div>
-                <div>
-                  <h4 class="font-bold text-slate-800 dark:text-white">
-                    Clean Code
-                  </h4>
-                  <p class="text-sm text-slate-600 dark:text-slate-400">
-                    Readable & Maintainable
-                  </p>
-                </div>
-              </div>
-
-              <div class="flex items-center">
-                <div
-                  class="w-10 h-10 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400 mr-3"
-                >
-                  <i class="fa-solid fa-layer-group"></i>
-                </div>
-                <div>
-                  <h4 class="font-bold text-slate-800 dark:text-white">
-                    Full Stack
-                  </h4>
-                  <p class="text-sm text-slate-600 dark:text-slate-400">
-                    Frontend to Backend
-                  </p>
-                </div>
-              </div>
-
-              <div class="flex items-center">
-                <div
-                  class="w-10 h-10 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400 mr-3"
-                >
-                  <i class="fa-solid fa-rocket"></i>
-                </div>
-                <div>
-                  <h4 class="font-bold text-slate-800 dark:text-white">
-                    Fast Delivery
-                  </h4>
-                  <p class="text-sm text-slate-600 dark:text-slate-400">
-                    Agile Development
-                  </p>
-                </div>
-              </div>
-
-              <div class="flex items-center">
-                <div
-                  class="w-10 h-10 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400 mr-3"
-                >
-                  <i class="fa-solid fa-mobile-screen"></i>
-                </div>
-                <div>
-                  <h4 class="font-bold text-slate-800 dark:text-white">
-                    Responsive
-                  </h4>
-                  <p class="text-sm text-slate-600 dark:text-slate-400">
-                    All Devices
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="grid grid-cols-2 gap-4">
-            <div
-              class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-lg card-hover"
-            >
-              <div class="text-indigo-600 dark:text-indigo-400 text-4xl mb-3">
-                <i class="fa-brands fa-react"></i>
-              </div>
-              <h4 class="font-bold text-lg text-slate-800 dark:text-white mb-2">
-                React Native
-              </h4>
-              <p class="text-slate-600 dark:text-slate-400 text-sm">
-                Building cross-platform apps with native-like performance.
-              </p>
-            </div>
-
-            <div
-              class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-lg card-hover"
-            >
-              <div class="text-blue-600 dark:text-blue-400 text-4xl mb-3">
-                <i class="fa-brands fa-dribbble"></i>
-              </div>
-              <h4 class="font-bold text-lg text-slate-800 dark:text-white mb-2">
-                Flutter
-              </h4>
-              <p class="text-slate-600 dark:text-slate-400 text-sm">
-                Creating beautiful UIs with expressive widgets.
-              </p>
-            </div>
-
-            <div
-              class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-lg card-hover"
-            >
-              <div class="text-green-600 dark:text-green-400 text-4xl mb-3">
-                <i class="fa-brands fa-python"></i>
-              </div>
-              <h4 class="font-bold text-lg text-slate-800 dark:text-white mb-2">
-                Django
-              </h4>
-              <p class="text-slate-600 dark:text-slate-400 text-sm">
-                Developing robust backend systems with Python.
-              </p>
-            </div>
-
-            <div
-              class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-lg card-hover"
-            >
-              <div class="text-emerald-600 dark:text-emerald-400 text-4xl mb-3">
-                <i class="fa-brands fa-node-js"></i>
-              </div>
-              <h4 class="font-bold text-lg text-slate-800 dark:text-white mb-2">
-                Node.js
-              </h4>
-              <p class="text-slate-600 dark:text-slate-400 text-sm">
-                Building scalable APIs with Express.js.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Skills Section -->
-    <section id="skills" class="py-16 px-6">
-      <div class="max-w-7xl mx-auto">
-        <div class="text-center mb-16">
-          <h2
-            class="text-3xl md:text-4xl font-bold text-slate-800 dark:text-white"
-          >
-            My <span class="text-indigo-600 dark:text-indigo-400">Skills</span>
-          </h2>
-          <div class="w-24 h-1 bg-indigo-600 mx-auto mt-4 rounded"></div>
-        </div>
-
-        <div class="grid md:grid-cols-2 gap-12">
-          <div>
-            <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-6">
-              Technical Skills
-            </h3>
-
-            <div class="space-y-6">
-              <div>
-                <div class="flex justify-between mb-2">
-                  <span class="font-medium text-slate-800 dark:text-white"
-                    >React Native</span
-                  >
-                  <span class="font-medium text-indigo-600 dark:text-indigo-400"
-                    >95%</span
-                  >
-                </div>
-                <div
-                  class="skill-bar bg-slate-200 dark:bg-slate-700 rounded-full"
-                >
-                  <div
-                    class="skill-fill bg-indigo-600 rounded-full w-[95%]"
-                  ></div>
-                </div>
-              </div>
-
-              <div>
-                <div class="flex justify-between mb-2">
-                  <span class="font-medium text-slate-800 dark:text-white"
-                    >Flutter</span
-                  >
-                  <span class="font-medium text-indigo-600 dark:text-indigo-400"
-                    >70%</span
-                  >
-                </div>
-                <div
-                  class="skill-bar bg-slate-200 dark:bg-slate-700 rounded-full"
-                >
-                  <div
-                    class="skill-fill bg-indigo-600 rounded-full w-[70%]"
-                  ></div>
-                </div>
-              </div>
-
-              <div>
-                <div class="flex justify-between mb-2">
-                  <span class="font-medium text-slate-800 dark:text-white"
-                    >Django</span
-                  >
-                  <span class="font-medium text-indigo-600 dark:text-indigo-400"
-                    >88%</span
-                  >
-                </div>
-                <div
-                  class="skill-bar bg-slate-200 dark:bg-slate-700 rounded-full"
-                >
-                  <div
-                    class="skill-fill bg-indigo-600 rounded-full w-[88%]"
-                  ></div>
-                </div>
-              </div>
-
-              <div>
-                <div class="flex justify-between mb-2">
-                  <span class="font-medium text-slate-800 dark:text-white"
-                    >Node.js/Express</span
-                  >
-                  <span class="font-medium text-indigo-600 dark:text-indigo-400"
-                    >80%</span
-                  >
-                </div>
-                <div
-                  class="skill-bar bg-slate-200 dark:bg-slate-700 rounded-full"
-                >
-                  <div
-                    class="skill-fill bg-indigo-600 rounded-full w-[80%]"
-                  ></div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-6">
-              Professional Skills
-            </h3>
-
-            <div class="grid grid-cols-2 gap-6">
-              <div
-                class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-lg flex flex-col items-center text-center card-hover"
-              >
-                <div
-                  class="w-16 h-16 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400 mb-4"
-                >
-                  <i class="fa-solid fa-comments text-2xl"></i>
-                </div>
-                <h4
-                  class="font-bold text-lg text-slate-800 dark:text-white mb-2"
-                >
-                  Communication
-                </h4>
-                <p class="text-slate-600 dark:text-slate-400 text-sm">
-                  Clear and effective communication with clients and team
-                  members.
+            
+            <div class="text-center max-w-3xl mx-auto">
+                <h1 class="text-4xl md:text-5xl font-bold text-slate-800 dark:text-white mb-4">
+                    My <span class="text-indigo-600 dark:text-indigo-400">Projects</span>
+                </h1>
+                <p class="text-xl text-slate-600 dark:text-slate-300 mb-10">
+                    Explore my latest mobile and backend development projects.
                 </p>
-              </div>
-
-              <div
-                class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-lg flex flex-col items-center text-center card-hover"
-              >
-                <div
-                  class="w-16 h-16 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400 mb-4"
-                >
-                  <i class="fa-solid fa-lightbulb text-2xl"></i>
+                
+                <div class="flex justify-center mb-8">
+                    <div class="relative w-full max-w-xl">
+                        <input type="text" id="project-search" placeholder="Search projects..." 
+                               class="w-full px-6 py-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition pl-14 shadow-sm">
+                        <i class="fa-solid fa-magnifying-glass absolute left-6 top-1/2 transform -translate-y-1/2 text-slate-400"></i>
+                    </div>
                 </div>
-                <h4
-                  class="font-bold text-lg text-slate-800 dark:text-white mb-2"
-                >
-                  Problem Solving
-                </h4>
-                <p class="text-slate-600 dark:text-slate-400 text-sm">
-                  Creative solutions for complex technical challenges.
-                </p>
-              </div>
-
-              <div
-                class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-lg flex flex-col items-center text-center card-hover"
-              >
-                <div
-                  class="w-16 h-16 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400 mb-4"
-                >
-                  <i class="fa-solid fa-users text-2xl"></i>
+                
+                <div class="flex flex-wrap justify-center gap-3 mb-6">
+                    <button class="filter-btn px-4 py-2 bg-indigo-600 text-white rounded-full text-sm font-medium active" data-filter="all">All Projects</button>
+                    <button class="filter-btn px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full text-sm font-medium" data-filter="mobile">Mobile Apps</button>
+                    <button class="filter-btn px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full text-sm font-medium" data-filter="web">Web Apps</button>
+                    <button class="filter-btn px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full text-sm font-medium" data-filter="backend">Backend</button>
                 </div>
-                <h4
-                  class="font-bold text-lg text-slate-800 dark:text-white mb-2"
-                >
-                  Teamwork
-                </h4>
-                <p class="text-slate-600 dark:text-slate-400 text-sm">
-                  Collaborating effectively in team environments.
-                </p>
-              </div>
-
-              <div
-                class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-lg flex flex-col items-center text-center card-hover"
-              >
-                <div
-                  class="w-16 h-16 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400 mb-4"
-                >
-                  <i class="fa-solid fa-clock text-2xl"></i>
+                
+                <div class="flex flex-wrap justify-center gap-3">
+                    <button class="filter-btn px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full text-sm font-medium" data-filter="react">React Native</button>
+                    <button class="filter-btn px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full text-sm font-medium" data-filter="flutter">Flutter</button>
+                    <button class="filter-btn px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full text-sm font-medium" data-filter="django">Django</button>
+                    <button class="filter-btn px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full text-sm font-medium" data-filter="node">Node.js</button>
                 </div>
-                <h4
-                  class="font-bold text-lg text-slate-800 dark:text-white mb-2"
-                >
-                  Time Management
-                </h4>
-                <p class="text-slate-600 dark:text-slate-400 text-sm">
-                  Delivering projects on schedule with quality.
-                </p>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
     </section>
 
     <!-- Projects Section -->
-    <section id="projects" class="py-16 px-6 bg-slate-50 dark:bg-slate-800">
-      <div class="max-w-7xl mx-auto">
-        <div class="text-center mb-16">
-          <h2
-            class="text-3xl md:text-4xl font-bold text-slate-800 dark:text-white"
-          >
-            My
-            <span class="text-indigo-600 dark:text-indigo-400">Projects</span>
-          </h2>
-          <div class="w-24 h-1 bg-indigo-600 mx-auto mt-4 rounded"></div>
-          <p class="max-w-2xl mx-auto mt-6 text-slate-600 dark:text-slate-300">
-            Here are some of my recent projects showcasing my skills in mobile
-            and backend development.
-          </p>
-        </div>
-
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <!-- Project 1 -->
-          <div class="project-card h-80 relative">
-            <div class="project-inner w-full h-full">
-              <div
-                class="project-front bg-white dark:bg-slate-800 rounded-2xl shadow-xl overflow-hidden h-full"
-              >
-                <div class="h-40 bg-indigo-500 relative overflow-hidden">
-                  <div
-                    class="absolute inset-0 bg-gradient-to-t from-indigo-700 to-indigo-400 opacity-80"
-                  ></div>
-                  <img
-                    src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80"
-                    alt="Project"
-                    class="w-full h-full object-cover"
-                  />
-                  <div
-                    class="absolute top-4 right-4 bg-indigo-600 text-white px-3 py-1 rounded-full text-sm font-medium"
-                  >
-                    React Native
-                  </div>
+    <section class="py-16 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="project-grid" id="projects-container">
+                <!-- Project 1 -->
+                <div class="project-card animate-fade-in" data-category="mobile react" data-title="Fitness Tracker App">
+                    <div class="project-inner">
+                        <div class="project-front">
+                            <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" 
+                                 alt="Fitness Tracker App" class="project-image">
+                            <div class="project-badge">React Native</div>
+                            <div class="project-content">
+                                <h3 class="project-title">Fitness Tracker App</h3>
+                                <p class="project-description">
+                                    Mobile app for tracking workouts and nutrition with social features. 
+                                    Built with React Native for both iOS and Android platforms.
+                                </p>
+                                <div class="tech-tags">
+                                    <span class="tech-tag">Firebase</span>
+                                    <span class="tech-tag">Redux</span>
+                                    <span class="tech-tag">Maps API</span>
+                                </div>
+                                <button class="btn-view-details mt-4">
+                                    View Details <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="project-back">
+                            <h3 class="text-2xl font-bold mb-4">Fitness Tracker App</h3>
+                            <p class="mb-4">
+                                Cross-platform fitness app with workout plans, nutrition tracking, and social challenges.
+                            </p>
+                            <ul class="project-features">
+                                <li>Real-time workout tracking with rest timers</li>
+                                <li>Nutrition database with 10,000+ foods</li>
+                                <li>Social challenges and leaderboards</li>
+                                <li>Progress photos and measurements</li>
+                            </ul>
+                            <div class="mt-auto flex gap-3">
+                                <button class="px-4 py-2 bg-white text-indigo-600 font-medium rounded-full flex-1">
+                                    <i class="fa-brands fa-github mr-2"></i> Code
+                                </button>
+                                <button class="px-4 py-2 bg-indigo-800 text-white font-medium rounded-full flex-1">
+                                    <i class="fa-solid fa-globe mr-2"></i> Demo
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="p-6">
-                  <h3
-                    class="text-xl font-bold text-slate-800 dark:text-white mb-2"
-                  >
-                    Fitness Tracker App
-                  </h3>
-                  <p class="text-slate-600 dark:text-slate-400 mb-4">
-                    Mobile app for tracking workouts and nutrition with social
-                    features.
-                  </p>
-                  <div class="flex space-x-2">
-                    <span
-                      class="px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs rounded"
-                      >Firebase</span
-                    >
-                    <span
-                      class="px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs rounded"
-                      >Redux</span
-                    >
-                    <span
-                      class="px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs rounded"
-                      >Maps API</span
-                    >
-                  </div>
+                
+                <!-- Project 2 -->
+                <div class="project-card animate-fade-in" data-category="mobile flutter" data-title="E-Commerce App">
+                    <div class="project-inner">
+                        <div class="project-front">
+                            <img src="https://images.unsplash.com/photo-1607082350899-7e105aa886ae?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" 
+                                 alt="E-Commerce App" class="project-image">
+                            <div class="project-badge" style="background: #0d9488;">Flutter</div>
+                            <div class="project-content">
+                                <h3 class="project-title">E-Commerce App</h3>
+                                <p class="project-description">
+                                    Mobile shopping experience with AR product visualization and secure payments. 
+                                    Supports multiple vendors and complex product variations.
+                                </p>
+                                <div class="tech-tags">
+                                    <span class="tech-tag" style="background: #ccfbf1; color: #0d9488;">Node.js</span>
+                                    <span class="tech-tag" style="background: #ccfbf1; color: #0d9488;">MongoDB</span>
+                                    <span class="tech-tag" style="background: #ccfbf1; color: #0d9488;">ARCore</span>
+                                </div>
+                                <button class="btn-view-details mt-4" style="background: #ccfbf1; color: #0d9488;">
+                                    View Details <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="project-back" style="background: linear-gradient(135deg, #0d9488, #14b8a6);">
+                            <h3 class="text-2xl font-bold mb-4">E-Commerce App</h3>
+                            <p class="mb-4">
+                                Feature-rich shopping app with augmented reality product previews and secure payments.
+                            </p>
+                            <ul class="project-features">
+                                <li>AR product visualization</li>
+                                <li>Secure payment gateway</li>
+                                <li>Real-time inventory tracking</li>
+                                <li>Multi-vendor marketplace</li>
+                            </ul>
+                            <div class="mt-auto flex gap-3">
+                                <button class="px-4 py-2 bg-white text-emerald-600 font-medium rounded-full flex-1">
+                                    <i class="fa-brands fa-github mr-2"></i> Code
+                                </button>
+                                <button class="px-4 py-2 bg-emerald-800 text-white font-medium rounded-full flex-1">
+                                    <i class="fa-solid fa-globe mr-2"></i> Demo
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
-
-              <div
-                class="project-back bg-indigo-600 text-white rounded-2xl p-6 flex flex-col justify-center"
-              >
-                <h3 class="text-xl font-bold mb-3">Fitness Tracker App</h3>
-                <p class="mb-4">
-                  Cross-platform fitness app with workout plans, nutrition
-                  tracking, and social challenges.
-                </p>
-                <ul class="space-y-2 mb-6">
-                  <li class="flex items-center">
-                    <i class="fa-solid fa-check mr-2"></i>
-                    Real-time workout tracking
-                  </li>
-                  <li class="flex items-center">
-                    <i class="fa-solid fa-check mr-2"></i>
-                    Nutrition database with 10k+ foods
-                  </li>
-                  <li class="flex items-center">
-                    <i class="fa-solid fa-check mr-2"></i>
-                    Social challenges & leaderboards
-                  </li>
-                </ul>
-                <button
-                  class="mt-auto bg-white text-indigo-600 font-medium py-2 px-4 rounded-full"
-                >
-                  View Details
-                </button>
-              </div>
+                
+                <!-- Project 3 -->
+                <div class="project-card animate-fade-in" data-category="web django" data-title="Finance Dashboard">
+                    <div class="project-inner">
+                        <div class="project-front">
+                            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" 
+                                 alt="Finance Dashboard" class="project-image">
+                            <div class="project-badge" style="background: #f59e0b;">Django</div>
+                            <div class="project-content">
+                                <h3 class="project-title">Finance Dashboard</h3>
+                                <p class="project-description">
+                                    Web-based financial analytics platform with real-time market data and 
+                                    predictive insights for investors and traders.
+                                </p>
+                                <div class="tech-tags">
+                                    <span class="tech-tag" style="background: #fef3c7; color: #d97706;">React</span>
+                                    <span class="tech-tag" style="background: #fef3c7; color: #d97706;">PostgreSQL</span>
+                                    <span class="tech-tag" style="background: #fef3c7; color: #d97706;">D3.js</span>
+                                </div>
+                                <button class="btn-view-details mt-4" style="background: #fef3c7; color: #d97706;">
+                                    View Details <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="project-back" style="background: linear-gradient(135deg, #f59e0b, #fbbf24);">
+                            <h3 class="text-2xl font-bold mb-4">Finance Dashboard</h3>
+                            <p class="mb-4">
+                                Comprehensive financial analytics platform with real-time market data and predictive insights.
+                            </p>
+                            <ul class="project-features">
+                                <li>Real-time stock data visualization</li>
+                                <li>Portfolio performance tracking</li>
+                                <li>Predictive analytics with ML</li>
+                                <li>Customizable dashboards</li>
+                            </ul>
+                            <div class="mt-auto flex gap-3">
+                                <button class="px-4 py-2 bg-white text-amber-600 font-medium rounded-full flex-1">
+                                    <i class="fa-brands fa-github mr-2"></i> Code
+                                </button>
+                                <button class="px-4 py-2 bg-amber-800 text-white font-medium rounded-full flex-1">
+                                    <i class="fa-solid fa-globe mr-2"></i> Demo
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 4 -->
+                <div class="project-card animate-fade-in" data-category="backend node" data-title="Task Management API">
+                    <div class="project-inner">
+                        <div class="project-front">
+                            <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" 
+                                 alt="Task Management API" class="project-image">
+                            <div class="project-badge" style="background: #8b5cf6;">Node.js</div>
+                            <div class="project-content">
+                                <h3 class="project-title">Task Management API</h3>
+                                <p class="project-description">
+                                    RESTful API for task management applications with user authentication, 
+                                    role-based permissions, and real-time notifications.
+                                </p>
+                                <div class="tech-tags">
+                                    <span class="tech-tag" style="background: #ede9fe; color: #7c3aed;">Express</span>
+                                    <span class="tech-tag" style="background: #ede9fe; color: #7c3aed;">MongoDB</span>
+                                    <span class="tech-tag" style="background: #ede9fe; color: #7c3aed;">JWT</span>
+                                </div>
+                                <button class="btn-view-details mt-4" style="background: #ede9fe; color: #7c3aed;">
+                                    View Details <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="project-back" style="background: linear-gradient(135deg, #8b5cf6, #a78bfa);">
+                            <h3 class="text-2xl font-bold mb-4">Task Management API</h3>
+                            <p class="mb-4">
+                                Robust backend system for task management with real-time features.
+                            </p>
+                            <ul class="project-features">
+                                <li>JWT-based authentication</li>
+                                <li>Role-based access control</li>
+                                <li>Real-time notifications</li>
+                                <li>Automated reminders</li>
+                            </ul>
+                            <div class="mt-auto flex gap-3">
+                                <button class="px-4 py-2 bg-white text-violet-600 font-medium rounded-full flex-1">
+                                    <i class="fa-brands fa-github mr-2"></i> Code
+                                </button>
+                                <button class="px-4 py-2 bg-violet-800 text-white font-medium rounded-full flex-1">
+                                    <i class="fa-solid fa-file-lines mr-2"></i> Docs
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-
-          <!-- Project 2 -->
-          <div class="project-card h-80 relative">
-            <div class="project-inner w-full h-full">
-              <div
-                class="project-front bg-white dark:bg-slate-800 rounded-2xl shadow-xl overflow-hidden h-full"
-              >
-                <div class="h-40 bg-emerald-500 relative overflow-hidden">
-                  <div
-                    class="absolute inset-0 bg-gradient-to-t from-emerald-700 to-emerald-400 opacity-80"
-                  ></div>
-                  <img
-                    src="https://images.unsplash.com/photo-1555421689-3f034debb7a6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80"
-                    alt="Project"
-                    class="w-full h-full object-cover"
-                  />
-                  <div
-                    class="absolute top-4 right-4 bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-medium"
-                  >
-                    Flutter
-                  </div>
-                </div>
-                <div class="p-6">
-                  <h3
-                    class="text-xl font-bold text-slate-800 dark:text-white mb-2"
-                  >
-                    E-Commerce App
-                  </h3>
-                  <p class="text-slate-600 dark:text-slate-400 mb-4">
-                    Mobile shopping experience with AR product visualization.
-                  </p>
-                  <div class="flex space-x-2">
-                    <span
-                      class="px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs rounded"
-                      >Node.js</span
-                    >
-                    <span
-                      class="px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs rounded"
-                      >MongoDB</span
-                    >
-                    <span
-                      class="px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs rounded"
-                      >ARCore</span
-                    >
-                  </div>
-                </div>
-              </div>
-
-              <div
-                class="project-back bg-emerald-600 text-white rounded-2xl p-6 flex flex-col justify-center"
-              >
-                <h3 class="text-xl font-bold mb-3">E-Commerce App</h3>
-                <p class="mb-4">
-                  Feature-rich shopping app with augmented reality product
-                  previews and secure payments.
-                </p>
-                <ul class="space-y-2 mb-6">
-                  <li class="flex items-center">
-                    <i class="fa-solid fa-check mr-2"></i>
-                    AR product visualization
-                  </li>
-                  <li class="flex items-center">
-                    <i class="fa-solid fa-check mr-2"></i>
-                    Secure payment integration
-                  </li>
-                  <li class="flex items-center">
-                    <i class="fa-solid fa-check mr-2"></i>
-                    Real-time inventory updates
-                  </li>
-                </ul>
-                <button
-                  class="mt-auto bg-white text-emerald-600 font-medium py-2 px-4 rounded-full"
-                >
-                  View Details
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Project 3 -->
-          <div class="project-card h-80 relative">
-            <div class="project-inner w-full h-full">
-              <div
-                class="project-front bg-white dark:bg-slate-800 rounded-2xl shadow-xl overflow-hidden h-full"
-              >
-                <div class="h-40 bg-amber-500 relative overflow-hidden">
-                  <div
-                    class="absolute inset-0 bg-gradient-to-t from-amber-700 to-amber-400 opacity-80"
-                  ></div>
-                  <img
-                    src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80"
-                    alt="Project"
-                    class="w-full h-full object-cover"
-                  />
-                  <div
-                    class="absolute top-4 right-4 bg-amber-600 text-white px-3 py-1 rounded-full text-sm font-medium"
-                  >
-                    Django
-                  </div>
-                </div>
-                <div class="p-6">
-                  <h3
-                    class="text-xl font-bold text-slate-800 dark:text-white mb-2"
-                  >
-                    Finance Dashboard
-                  </h3>
-                  <p class="text-slate-600 dark:text-slate-400 mb-4">
-                    Web-based financial analytics platform with real-time data.
-                  </p>
-                  <div class="flex space-x-2">
-                    <span
-                      class="px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs rounded"
-                      >React</span
-                    >
-                    <span
-                      class="px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs rounded"
-                      >PostgreSQL</span
-                    >
-                    <span
-                      class="px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs rounded"
-                      >D3.js</span
-                    >
-                  </div>
-                </div>
-              </div>
-
-              <div
-                class="project-back bg-amber-600 text-white rounded-2xl p-6 flex flex-col justify-center"
-              >
-                <h3 class="text-xl font-bold mb-3">Finance Dashboard</h3>
-                <p class="mb-4">
-                  Comprehensive financial analytics platform with real-time
-                  market data and predictive insights.
-                </p>
-                <ul class="space-y-2 mb-6">
-                  <li class="flex items-center">
-                    <i class="fa-solid fa-check mr-2"></i>
-                    Real-time market data
-                  </li>
-                  <li class="flex items-center">
-                    <i class="fa-solid fa-check mr-2"></i>
-                    Predictive analytics
-                  </li>
-                  <li class="flex items-center">
-                    <i class="fa-solid fa-check mr-2"></i>
-                    Customizable dashboards
-                  </li>
-                </ul>
-                <button
-                  class="mt-auto bg-white text-amber-600 font-medium py-2 px-4 rounded-full"
-                >
-                  View Details
-                </button>
-              </div>
-            </div>
-          </div>
         </div>
-
-        <div class="text-center mt-12">
-          <a
-            href="/projects.html"
-            class="inline-flex items-center px-6 py-3 border border-slate-300 dark:border-slate-600 text-slate-800 dark:text-white font-medium rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 transition"
-          >
-            View All Projects
-            <i class="fa-solid fa-arrow-right ml-2"></i>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="py-16 px-6 bg-slate-50 dark:bg-slate-800">
-      <div class="max-w-7xl mx-auto">
-        <div class="text-center mb-16">
-          <h2
-            class="text-3xl md:text-4xl font-bold text-slate-800 dark:text-white"
-          >
-            Get In
-            <span class="text-indigo-600 dark:text-indigo-400">Touch</span>
-          </h2>
-          <div class="w-24 h-1 bg-indigo-600 mx-auto mt-4 rounded"></div>
-          <p class="max-w-2xl mx-auto mt-6 text-slate-600 dark:text-slate-300">
-            Have a project in mind or want to discuss potential opportunities?
-            Fill out the form and I'll get back to you within 24 hours.
-          </p>
-        </div>
-
-        <div class="grid md:grid-cols-2 gap-12">
-          <div>
-            <form
-              id="contact-form"
-              class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-8 card-hover"
-            >
-              <div id="form-message" class="hidden mb-6 p-4 rounded-lg"></div>
-
-              <div class="grid grid-cols-2 gap-4">
-                <div>
-                  <label
-                    for="name"
-                    class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1"
-                    >Name*</label
-                  >
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    required
-                    class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition"
-                  />
-                </div>
-
-                <div>
-                  <label
-                    for="email"
-                    class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1"
-                    >Email*</label
-                  >
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    required
-                    class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition"
-                  />
-                </div>
-              </div>
-
-              <div class="mt-4">
-                <label
-                  for="subject"
-                  class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1"
-                  >Subject*</label
-                >
-                <input
-                  type="text"
-                  id="subject"
-                  name="subject"
-                  required
-                  class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition"
-                />
-              </div>
-
-              <div class="mt-4">
-                <label
-                  for="message"
-                  class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1"
-                  >Message*</label
-                >
-                <textarea
-                  id="message"
-                  name="message"
-                  rows="4"
-                  required
-                  class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition"
-                ></textarea>
-              </div>
-
-              <button
-                type="submit"
-                id="submit-btn"
-                class="w-full mt-6 px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/40 flex items-center justify-center"
-              >
-                <span id="submit-text">Send Message</span>
-                <svg
-                  id="submit-spinner"
-                  class="hidden w-5 h-5 ml-2 text-white animate-spin"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    class="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    stroke-width="4"
-                  ></circle>
-                  <path
-                    class="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </svg>
-              </button>
-            </form>
-          </div>
-
-          <div class="space-y-8">
-            <div
-              class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-8 card-hover"
-            >
-              <h3
-                class="text-2xl font-bold text-slate-800 dark:text-white mb-6"
-              >
-                Contact Information
-              </h3>
-
-              <div class="space-y-6">
-                <div class="flex items-start">
-                  <div
-                    class="w-12 h-12 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400 mr-4"
-                  >
-                    <i class="fa-solid fa-envelope text-xl"></i>
-                  </div>
-                  <div>
-                    <h4
-                      class="font-bold text-lg text-slate-800 dark:text-white"
-                    >
-                      Email
-                    </h4>
-                    <p class="text-slate-600 dark:text-slate-400">
-                      anshvyas114@gmail.com
-                    </p>
-                    <a
-                      href="mailto:anshvyas114@gmail.com"
-                      class="text-indigo-600 dark:text-indigo-400 text-sm font-medium"
-                      >Send a message</a
-                    >
-                  </div>
-                </div>
-
-                <div class="flex items-start">
-                  <div
-                    class="w-12 h-12 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400 mr-4"
-                  >
-                    <i class="fa-solid fa-phone text-xl"></i>
-                  </div>
-                  <div>
-                    <h4
-                      class="font-bold text-lg text-slate-800 dark:text-white"
-                    >
-                      Phone
-                    </h4>
-                    <p class="text-slate-600 dark:text-slate-400">
-                      +91 7627013828
-                    </p>
-                    <a
-                      href="tel:+917627013828"
-                      class="text-indigo-600 dark:text-indigo-400 text-sm font-medium"
-                      >Call me</a
-                    >
-                  </div>
-                </div>
-
-                <div class="flex items-start">
-                  <div
-                    class="w-12 h-12 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400 mr-4"
-                  >
-                    <i class="fa-solid fa-location-dot text-xl"></i>
-                  </div>
-                  <div>
-                    <h4
-                      class="font-bold text-lg text-slate-800 dark:text-white"
-                    >
-                      Location
-                    </h4>
-                    <p class="text-slate-600 dark:text-slate-400">
-                      Jaipur, Rajasthan
-                    </p>
-                    <a
-                      href="mailto:anshvyas114@gmail.com?subject=send%20your%20location%20please&body=i%20want%20to%20meet%20you"
-                      class="text-indigo-600 dark:text-indigo-400 text-sm font-medium"
-                      >Get directions</a
-                    >
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="grid grid-cols-4 gap-4">
-              <a
-                href="https://github.com/ansh-vyas"
-                class="bg-white dark:bg-slate-800 rounded-xl shadow-md p-4 flex items-center justify-center text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition card-hover"
-              >
-                <i class="fa-brands fa-github text-2xl"></i>
-              </a>
-              <a
-                href="https://www.linkedin.com/in/-anshul-vyas/"
-                class="bg-white dark:bg-slate-800 rounded-xl shadow-md p-4 flex items-center justify-center text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition card-hover"
-              >
-                <i class="fa-brands fa-linkedin-in text-2xl"></i>
-              </a>
-              <a
-                href="https://twitter.com/_ansh_vyas"
-                class="bg-white dark:bg-slate-800 rounded-xl shadow-md p-4 flex items-center justify-center text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition card-hover"
-              >
-                <i class="fa-brands fa-twitter text-2xl"></i>
-              </a>
-              <a
-                href="tel:+917627013828"
-                class="bg-white dark:bg-slate-800 rounded-xl shadow-md p-4 flex items-center justify-center text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition card-hover"
-              >
-                <i class="fa-brands fa-phone text-2xl"></i>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
     </section>
 
     <!-- Footer -->
     <footer class="py-12 bg-slate-900 text-slate-300">
-      <div class="max-w-7xl mx-auto px-6">
-        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          <div>
-            <div class="flex items-center mb-6">
-              <div
-                class="w-10 h-10 rounded-full bg-indigo-500 flex items-center justify-center text-white font-bold mr-3"
-              >
-                AV
-              </div>
-              <span class="text-xl font-bold text-white">Anshul vyas</span>
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-6">
+                        <div class="w-10 h-10 rounded-full bg-indigo-500 flex items-center justify-center text-white font-bold mr-3">
+                            AV
+                        </div>
+                        <span class="text-xl font-bold text-white">Anshul vyas</span>
+                    </div>
+                    <p class="mb-6">
+                        Creating beautiful mobile experiences and powerful backend solutions.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="https://github.com/anshulvyas-RN" class="text-slate-400 hover:text-white transition">
+                            <i class="fa-brands fa-github"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/-anshul-vyas/" class="text-slate-400 hover:text-white transition">
+                            <i class="fa-brands fa-linkedin-in"></i>
+                        </a>
+                        <a href="https://twitter.com/_ansh_vyas" class="text-slate-400 hover:text-white transition">
+                            <i class="fa-brands fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold text-white mb-6">Quick Links</h4>
+                    <ul class="space-y-3">
+                        <li><a href="index.html" class="hover:text-white transition">Home</a></li>
+                        <li><a href="index.html#about" class="hover:text-white transition">About</a></li>
+                        <li><a href="index.html#skills" class="hover:text-white transition">Skills</a></li>
+                        <li><a href="projects.html" class="hover:text-white transition">Projects</a></li>
+                        <li><a href="index.html#contact" class="hover:text-white transition">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold text-white mb-6">Technologies</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="hover:text-white transition">React Native</a></li>
+                        <li><a href="#" class="hover:text-white transition">Flutter</a></li>
+                        <li><a href="#" class="hover:text-white transition">Django</a></li>
+                        <li><a href="#" class="hover:text-white transition">Node.js</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold text-white mb-6">Contact</h4>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fa-solid fa-envelope mt-1 mr-3 text-indigo-400"></i>
+                            <span>anshvyas114@gmail.com</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa-solid fa-phone mt-1 mr-3 text-indigo-400"></i>
+                            <span>+91 7627013828</span>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <p class="mb-6">
-              Creating beautiful mobile experiences and powerful backend
-              solutions for modern businesses.
-            </p>
-            <div class="flex space-x-4">
-              <a
-                href="https://github.com/ansh-vyas"
-                class="text-slate-400 hover:text-white transition"
-              >
-                <i class="fa-brands fa-github"></i>
-              </a>
-              <a
-                href="https://www.linkedin.com/in/-anshul-vyas/"
-                class="text-slate-400 hover:text-white transition"
-              >
-                <i class="fa-brands fa-linkedin-in"></i>
-              </a>
-              <a
-                href="https://twitter.com/_ansh_vyas"
-                class="text-slate-400 hover:text-white transition"
-              >
-                <i class="fa-brands fa-twitter"></i>
-              </a>
-              <a
-                href="tel:+917627013828"
-                class="text-slate-400 hover:text-white transition"
-              >
-                <i class="fa-brands fa-phone"></i>
-              </a>
+            
+            <div class="border-t border-slate-800 mt-12 pt-8 text-center">
+                <p>&copy; 2025 Anshulvyas. All rights reserved.</p>
             </div>
-          </div>
-
-          <div>
-            <h4 class="text-lg font-bold text-white mb-6">Quick Links</h4>
-            <ul class="space-y-3">
-              <li>
-                <a href="#home" class="hover:text-white transition">Home</a>
-              </li>
-              <li>
-                <a href="#about" class="hover:text-white transition">About</a>
-              </li>
-              <li>
-                <a href="#skills" class="hover:text-white transition">Skills</a>
-              </li>
-              <li>
-                <a href="#projects" class="hover:text-white transition"
-                  >Projects</a
-                >
-              </li>
-              <li>
-                <a href="#contact" class="hover:text-white transition"
-                  >Contact</a
-                >
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 class="text-lg font-bold text-white mb-6">Services</h4>
-            <ul class="space-y-3">
-              <li>
-                <a href="#contact" class="hover:text-white transition"
-                  >Mobile App Development</a
-                >
-              </li>
-              <li>
-                <a href="#contact" class="hover:text-white transition"
-                  >Backend Development</a
-                >
-              </li>
-              <li>
-                <a href="#contact" class="hover:text-white transition"
-                  >API Integration</a
-                >
-              </li>
-              <li>
-                <a href="#contact" class="hover:text-white transition"
-                  >UI/UX Design</a
-                >
-              </li>
-              <li>
-                <a href="#contact" class="hover:text-white transition"
-                  >Consulting</a
-                >
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 class="text-lg font-bold text-white mb-6">Newsletter</h4>
-            <p class="mb-4">
-              Subscribe to my newsletter for the latest updates and offers.
-            </p>
-            <form class="flex">
-              <input
-                type="email"
-                placeholder="Your email"
-                class="px-4 py-3 bg-slate-800 border border-slate-700 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 w-full"
-              />
-              <button
-                class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 rounded-r-lg transition"
-              >
-                <i class="fa-solid fa-paper-plane"></i>
-              </button>
-            </form>
-          </div>
         </div>
-
-        <div class="border-t border-slate-800 mt-12 pt-8 text-center">
-          <p>&copy; 2025 Anshulvyas. All rights reserved.</p>
-        </div>
-      </div>
     </footer>
 
     <script>
-      // Dark mode toggle
-      const themeToggle = document.getElementById("theme-toggle");
-      const html = document.documentElement;
-
-      // Check for saved theme preference or respect OS setting
-      if (
-        localStorage.getItem("theme") === "dark" ||
-        (!localStorage.getItem("theme") &&
-          window.matchMedia("(prefers-color-scheme: dark)").matches)
-      ) {
-        html.classList.add("dark");
-      }
-
-      themeToggle.addEventListener("click", () => {
-        html.classList.toggle("dark");
-        localStorage.setItem(
-          "theme",
-          html.classList.contains("dark") ? "dark" : "light"
-        );
-      });
-
-      // Smooth scrolling for anchor links
-      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-        anchor.addEventListener("click", function (e) {
-          e.preventDefault();
-
-          document.querySelector(this.getAttribute("href")).scrollIntoView({
-            behavior: "smooth",
-          });
+        // Dark mode toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+        
+        // Check for saved theme preference or respect OS setting
+        if (localStorage.getItem('theme') === 'dark' || 
+            (!localStorage.getItem('theme') && 
+            window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            html.classList.add('dark');
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
         });
-      });
-
-      // Animate elements when they enter the viewport
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("animate-fade-in");
-            }
-          });
-        },
-        {
-          threshold: 0.1,
+        
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        mobileMenuBtn.addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+        
+        // Filter functionality
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const projectSearch = document.getElementById('project-search');
+        
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                filterProjects();
+            });
+        });
+        
+        projectSearch.addEventListener('input', filterProjects);
+        
+        function filterProjects() {
+            const searchTerm = projectSearch.value.toLowerCase();
+            const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
+            const projectCards = document.querySelectorAll('.project-card');
+            
+            projectCards.forEach(card => {
+                const categories = card.dataset.category;
+                const title = card.dataset.title.toLowerCase();
+                
+                const matchesFilter = activeFilter === 'all' || categories.includes(activeFilter);
+                const matchesSearch = title.includes(searchTerm);
+                
+                if (matchesFilter && matchesSearch) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
         }
-      );
-
-      document.querySelectorAll(".card-hover, .skill-fill").forEach((el) => {
-        observer.observe(el);
-      });
-
-      // Animate skill bars
-      document.querySelectorAll(".skill-fill").forEach((bar) => {
-        // Get the width from the parent's data attribute or style
-        const width = bar.style.width;
-        bar.style.width = "0";
-
-        setTimeout(() => {
-          bar.style.width = width;
-        }, 300);
-      });
-
-      // Contact Form Submission
-      // Formspree Integration
-      const contactForm = document.getElementById("contact-form");
-      const formMessage = document.getElementById("form-message");
-      const submitBtn = document.getElementById("submit-btn");
-      const submitText = document.getElementById("submit-text");
-      const submitSpinner = document.getElementById("submit-spinner");
-
-      // Replace with your actual Formspree endpoint
-      const formspreeEndpoint = "https://formspree.io/f/xrbklyep";
-
-      contactForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
-
-        // Show loading state
-        submitText.textContent = "Sending...";
-        submitSpinner.classList.remove("hidden");
-        submitBtn.disabled = true;
-        formMessage.classList.add("hidden");
-
-        try {
-          // Get form data
-          const formData = new FormData(contactForm);
-
-          // Send to Formspree
-          const response = await fetch(formspreeEndpoint, {
-            method: "POST",
-            body: formData,
-            headers: {
-              Accept: "application/json",
-            },
-          });
-
-          if (response.ok) {
-            // Show success message
-            formMessage.textContent =
-              "Message sent successfully! I will get back to you soon.";
-            formMessage.className =
-              "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 mb-6 p-4 rounded-lg";
-            formMessage.classList.remove("hidden");
-
-            // Reset form
-            contactForm.reset();
-          } else {
-            // Handle Formspree errors
-            const errorData = await response.json();
-            throw new Error(errorData.error || "Failed to send message");
-          }
-        } catch (error) {
-          // Show error message
-          formMessage.textContent =
-            error.message || "Failed to send message. Please try again later.";
-          formMessage.className =
-            "bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 mb-6 p-4 rounded-lg";
-          formMessage.classList.remove("hidden");
-
-          console.error("Form submission error:", error);
-        } finally {
-          // Reset button state
-          submitText.textContent = "Send Message";
-          submitSpinner.classList.add("hidden");
-          submitBtn.disabled = false;
-
-          // Hide message after 5 seconds
-          setTimeout(() => {
-            formMessage.classList.add("hidden");
-          }, 5000);
-        }
-      });
-
+        
+        // Initialize animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fade-in');
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        document.querySelectorAll('.project-card').forEach(card => {
+            observer.observe(card);
+        });
     </script>
-  </body>
+</body>
 </html>
